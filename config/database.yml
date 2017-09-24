@@ -82,4 +82,4 @@ production:
   <<: *default
   database: AnotherCalendar_production
   username: AnotherCalendar
-  password: <%= ENV['ANOTHERCALENDAR_DATABASE_PASSWORD'] %>
+  password: '123456'
