@@ -2,7 +2,7 @@
 
 module Api
   module V1
-    class EventController < ApplicationController
+    class EventsController < ApplicationController
       before_action :authenticate_current_user!
 
       def index
@@ -13,7 +13,7 @@ module Api
       end
 
       def show
-        @calendar = current_user.calendar.find(event_params[:calendar_id])
+        @calendar = current_user.calendar.find(params[:calendar_id])
         @event = @calendar.events.find(params[:id])
 
         if @event
@@ -24,7 +24,7 @@ module Api
       end
 
       def update
-        @calendar = current_user.calendar.find(event_params[:calendar_id])
+        @calendar = current_user.calendar.find(params[:calendar_id])
         @event = @calendar.events.find(params[:id])
 
         if @event.update(event_params)
@@ -35,7 +35,7 @@ module Api
       end
 
       def create
-        @calendar = current_user.calendar.find(event_params[:calendar_id])
+        @calendar = current_user.calendar.find(params[:calendar_id])
         @event = @calendar.events.build(params[:id])
 
         if @event.save
@@ -46,7 +46,7 @@ module Api
       end
 
       def destroy
-        @calendar = current_user.calendar.find(event_params[:calendar_id])
+        @calendar = current_user.calendar.find(params[:calendar_id])
         @event = @calendar.events.find(params[:id])
 
         if @event.destroy
@@ -59,7 +59,7 @@ module Api
       private
 
       def event_params
-        params.permit(:calendar_id, :title, :private, :description)
+        params.permit(:title, :description, :start_at, :end_at)
       end
 
       def render_ressource_success

@@ -2,7 +2,7 @@
 
 module Api
   module V1
-    class CalendarController < ApplicationController
+    class CalendarsController < ApplicationController
       before_action :authenticate_current_user!
 
       def index

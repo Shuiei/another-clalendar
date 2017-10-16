@@ -2,7 +2,7 @@
 
 module Api
   module V1
-    class ContactController < ApplicationController
+    class ContactsController < ApplicationController
       before_action :authenticate_current_user!
 
       def index
@@ -53,7 +53,7 @@ module Api
       private
 
       def contact_params
-        params.permit(:id, :title, :private)
+        params.permit(:user_id)
       end
 
       def render_ressource_success

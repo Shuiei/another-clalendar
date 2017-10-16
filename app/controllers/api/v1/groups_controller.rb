@@ -2,7 +2,7 @@
 
 module Api
   module V1
-    class GroupController < ApplicationController
+    class GroupsController < ApplicationController
       before_action :authenticate_current_user!
 
       def index
@@ -53,7 +53,7 @@ module Api
       private
 
       def group_params
-        params.permit(:id, :title, :private)
+        params.permit(:title)
       end
 
       def render_ressource_success
