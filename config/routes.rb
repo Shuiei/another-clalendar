@@ -7,8 +7,19 @@ Rails.application.routes.draw do
     namespace :v1 do
       mount_devise_token_auth_for 'User', at: 'auth'
 
-      resources :calendar, only: %i[index show create update destroy]
-      resources :user, only: %i[index show create update destroy]
+      resources :users
+
+      resource :user do
+        resources :calendars do
+          resources :events
+        end
+
+        resources :groups do
+          resources :contact_groups, path: 'contact', only: [:create]
+        end
+
+        resources :contacts
+      end
     end
   end
 end

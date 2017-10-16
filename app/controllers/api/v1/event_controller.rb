@@ -2,18 +2,21 @@
 
 module Api
   module V1
-    class CalendarController < ApplicationController
+    class EventController < ApplicationController
       before_action :authenticate_current_user!
 
       def index
-        @calendar = current_user.calendars
+        @calendar = current_user.calendar.find(event_params[:calendar_id])
+        @event = @calendar.events
+
         render_ressource_success
       end
 
       def show
-        @calendar = current_user.calendars.find(params[:id])
+        @calendar = current_user.calendar.find(event_params[:calendar_id])
+        @event = @calendar.events.find(params[:id])
 
-        if @calendar
+        if @event
           render_ressource_success
         else
           render_ressource_errors
@@ -21,9 +24,10 @@ module Api
       end
 
       def update
-        @calendar = current_user.calendars.find(params[:id])
+        @calendar = current_user.calendar.find(event_params[:calendar_id])
+        @event = @calendar.events.find(params[:id])
 
-        if @calendar.update(calendar_params)
+        if @event.update(event_params)
           return render_ressource_success
         else
           return render_ressource_errors
@@ -31,9 +35,10 @@ module Api
       end
 
       def create
-        @calendar = current_user.calendars.build(calendar_params)
+        @calendar = current_user.calendar.find(event_params[:calendar_id])
+        @event = @calendar.events.build(params[:id])
 
-        if @calendar.save
+        if @event.save
           return render_ressource_success
         else
           return render_ressource_errors
@@ -41,9 +46,10 @@ module Api
       end
 
       def destroy
-        @calendar = current_user.calendars.find(params[:id])
+        @calendar = current_user.calendar.find(event_params[:calendar_id])
+        @event = @calendar.events.find(params[:id])
 
-        if @calendar.destroy
+        if @event.destroy
           render_ressource_success
         else
           render_ressource_errors
@@ -52,14 +58,14 @@ module Api
 
       private
 
-      def calendar_params
-        params.permit(:title, :private)
+      def event_params
+        params.permit(:calendar_id, :title, :private, :description)
       end
 
       def render_ressource_success
         render json: {
           status: 'success',
-          data:   @calendar,
+          data:   @event,
           errors: [I18n.t('devise_token_auth.registrations.missing_confirm_success_url')]
         }, status: 200
       end
@@ -67,7 +73,7 @@ module Api
       def render_ressource_errors
         render json: {
           status: 'error',
-          data:   @calendar.errors,
+          data:   @event.errors,
           errors: [I18n.t('devise_token_auth.registrations.missing_confirm_success_url')]
         }, status: 422
       end

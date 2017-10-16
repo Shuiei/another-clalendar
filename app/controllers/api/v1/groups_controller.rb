@@ -2,18 +2,18 @@
 
 module Api
   module V1
-    class CalendarController < ApplicationController
+    class GroupController < ApplicationController
       before_action :authenticate_current_user!
 
       def index
-        @calendar = current_user.calendars
+        @group = current_user.groups
         render_ressource_success
       end
 
       def show
-        @calendar = current_user.calendars.find(params[:id])
+        @group = current_user.groups.find(params[:id])
 
-        if @calendar
+        if @group
           render_ressource_success
         else
           render_ressource_errors
@@ -21,9 +21,9 @@ module Api
       end
 
       def update
-        @calendar = current_user.calendars.find(params[:id])
+        @group = current_user.groups.find(params[:id])
 
-        if @calendar.update(calendar_params)
+        if @group.update(group_params)
           return render_ressource_success
         else
           return render_ressource_errors
@@ -31,9 +31,9 @@ module Api
       end
 
       def create
-        @calendar = current_user.calendars.build(calendar_params)
+        @group = current_user.groups.build(group_params)
 
-        if @calendar.save
+        if @group.save
           return render_ressource_success
         else
           return render_ressource_errors
@@ -41,9 +41,9 @@ module Api
       end
 
       def destroy
-        @calendar = current_user.calendars.find(params[:id])
+        @group = current_user.groups.find(params[:id])
 
-        if @calendar.destroy
+        if @group.destroy
           render_ressource_success
         else
           render_ressource_errors
@@ -52,14 +52,14 @@ module Api
 
       private
 
-      def calendar_params
-        params.permit(:title, :private)
+      def group_params
+        params.permit(:id, :title, :private)
       end
 
       def render_ressource_success
         render json: {
           status: 'success',
-          data:   @calendar,
+          data:   @group,
           errors: [I18n.t('devise_token_auth.registrations.missing_confirm_success_url')]
         }, status: 200
       end
@@ -67,7 +67,7 @@ module Api
       def render_ressource_errors
         render json: {
           status: 'error',
-          data:   @calendar.errors,
+          data:   @group.errors,
           errors: [I18n.t('devise_token_auth.registrations.missing_confirm_success_url')]
         }, status: 422
       end
