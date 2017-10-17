@@ -3,7 +3,7 @@
 module Api
   module V1
     class ContactGroupsController < ApplicationController
-      before_action :authenticate_current_user!
+      before_action :authenticate_user!
 
       def create
         @group = current_user.groups.find(params[:group_id])

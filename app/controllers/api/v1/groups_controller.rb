@@ -3,7 +3,7 @@
 module Api
   module V1
     class GroupsController < ApplicationController
-      before_action :authenticate_current_user!
+      before_action :authenticate_user!
 
       def index
         @group = current_user.groups

@@ -3,7 +3,7 @@
 module Api
   module V1
     class EventsController < ApplicationController
-      before_action :authenticate_current_user!
+      before_action :authenticate_user!
 
       def index
         @calendar = current_user.calendar.find(event_params[:calendar_id])

@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# frozen_rails generate rspec:installstring_literal: true
+
 source 'https://rubygems.org'
 
 git_source(:github) do |repo_name|
@@ -32,6 +34,8 @@ gem 'puma', '~> 3.7'
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: %i[mri mingw x64_mingw]
+  gem 'factory_girl_rails'
+  gem 'rails-controller-testing'
 end
 
 group :development do
@@ -42,6 +46,10 @@ group :development do
   gem 'rubocop-rspec-focused', require: false
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
+end
+
+group :test do
+  gem 'rspec-rails'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem

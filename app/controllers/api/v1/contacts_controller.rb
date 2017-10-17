@@ -3,7 +3,7 @@
 module Api
   module V1
     class ContactsController < ApplicationController
-      before_action :authenticate_current_user!
+      before_action :authenticate_user!
 
       def index
         @contact = current_user.contacts
@@ -34,6 +34,7 @@ module Api
           render json: @contact
         else
           render json: @contact.errors
+        end
       end
 
       private

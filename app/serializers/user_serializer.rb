@@ -1,8 +1,9 @@
 # frozen_string_literal: true
 
 class UserSerializer < ActiveModel::Serializer
-  attributes :id, :email
+  attributes :id, :email, :name, :nickname, :image
 
-  belongs_to :owner, class_name: 'User'
+  has_many :calendars
   has_many :contacts
+  has_many :groups
 end
