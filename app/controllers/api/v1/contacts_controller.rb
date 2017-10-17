@@ -7,36 +7,23 @@ module Api
 
       def index
         @contact = current_user.contacts
-        render_ressource_success
+        render json: @contact
       end
 
       def show
         @contact = current_user.contacts.find(params[:id])
 
-        if @contact
-          render_ressource_success
-        else
-          render_ressource_errors
-        end
-      end
-
-      def update
-        @contact = current_user.contacts.find(params[:id])
-
-        if @contact.update(contact_params)
-          return render_ressource_success
-        else
-          return render_ressource_errors
-        end
+        render json: @contact
       end
 
       def create
+        define_create_attributes
         @contact = current_user.contacts.build(contact_params)
 
         if @contact.save
-          return render_ressource_success
+          render json: @contact
         else
-          return render_ressource_errors
+          render(json: @contact.errors)
         end
       end
 
@@ -44,10 +31,9 @@ module Api
         @contact = current_user.contacts.find(params[:id])
 
         if @contact.destroy
-          render_ressource_success
+          render json: @contact
         else
-          render_ressource_errors
-        end
+          render json: @contact.errors
       end
 
       private
@@ -56,20 +42,11 @@ module Api
         params.permit(:user_id)
       end
 
-      def render_ressource_success
-        render json: {
-          status: 'success',
-          data:   @contact,
-          errors: [I18n.t('devise_token_auth.registrations.missing_confirm_success_url')]
-        }, status: 200
-      end
+      def define_create_attributes
+        return if params[:email].blank?
 
-      def render_ressource_errors
-        render json: {
-          status: 'error',
-          data:   @contact.errors,
-          errors: [I18n.t('devise_token_auth.registrations.missing_confirm_success_url')]
-        }, status: 422
+        params[:user_id] = User.find_by(email: params[:email]).id
+        params.delete(:email)
       end
     end
   end

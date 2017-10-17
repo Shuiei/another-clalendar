@@ -9,7 +9,7 @@ module Api
         @calendar = current_user.calendar.find(event_params[:calendar_id])
         @event = @calendar.events
 
-        render_ressource_success
+        render json: @event
       end
 
       def show
@@ -17,9 +17,9 @@ module Api
         @event = @calendar.events.find(params[:id])
 
         if @event
-          render_ressource_success
+          render json: @event
         else
-          render_ressource_errors
+          render json: @event.errors
         end
       end
 
@@ -28,9 +28,9 @@ module Api
         @event = @calendar.events.find(params[:id])
 
         if @event.update(event_params)
-          return render_ressource_success
+          return render json: @event
         else
-          return render_ressource_errors
+          return render json: @event.errors
         end
       end
 
@@ -39,9 +39,9 @@ module Api
         @event = @calendar.events.build(params[:id])
 
         if @event.save
-          return render_ressource_success
+          return render json: @event
         else
-          return render_ressource_errors
+          return render json: @event.errors
         end
       end
 
@@ -50,9 +50,9 @@ module Api
         @event = @calendar.events.find(params[:id])
 
         if @event.destroy
-          render_ressource_success
+          render json: @event
         else
-          render_ressource_errors
+          render json: @event.errors
         end
       end
 
@@ -60,22 +60,6 @@ module Api
 
       def event_params
         params.permit(:title, :description, :start_at, :end_at)
-      end
-
-      def render_ressource_success
-        render json: {
-          status: 'success',
-          data:   @event,
-          errors: [I18n.t('devise_token_auth.registrations.missing_confirm_success_url')]
-        }, status: 200
-      end
-
-      def render_ressource_errors
-        render json: {
-          status: 'error',
-          data:   @event.errors,
-          errors: [I18n.t('devise_token_auth.registrations.missing_confirm_success_url')]
-        }, status: 422
       end
     end
   end

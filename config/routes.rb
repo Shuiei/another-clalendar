@@ -18,7 +18,7 @@ Rails.application.routes.draw do
           resources :contact_groups, path: 'contact', only: [:create]
         end
 
-        resources :contacts
+        resources :contacts, only: [:index, :show, :create, :destroy]
       end
     end
   end
