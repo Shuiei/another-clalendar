@@ -10,10 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171017155828) do
+ActiveRecord::Schema.define(version: 20171018204031) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "calendar_participants", force: :cascade do |t|
+    t.bigint "participant_id"
+    t.bigint "calendar_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["calendar_id"], name: "index_calendar_participants_on_calendar_id"
+    t.index ["participant_id"], name: "index_calendar_participants_on_participant_id"
+  end
 
   create_table "calendars", force: :cascade do |t|
     t.string "title", null: false
@@ -21,6 +30,8 @@ ActiveRecord::Schema.define(version: 20171017155828) do
     t.bigint "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "primary", default: false, null: false
+    t.boolean "important", default: false, null: false
     t.index ["user_id"], name: "index_calendars_on_user_id"
   end
 
@@ -36,6 +47,15 @@ ActiveRecord::Schema.define(version: 20171017155828) do
     t.bigint "group_id"
     t.index ["contact_id"], name: "index_contacts_groups_on_contact_id"
     t.index ["group_id"], name: "index_contacts_groups_on_group_id"
+  end
+
+  create_table "event_participants", force: :cascade do |t|
+    t.bigint "participant_id"
+    t.bigint "event_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["event_id"], name: "index_event_participants_on_event_id"
+    t.index ["participant_id"], name: "index_event_participants_on_participant_id"
   end
 
   create_table "events", force: :cascade do |t|

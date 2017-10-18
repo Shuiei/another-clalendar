@@ -5,5 +5,4 @@ class UserSerializer < ActiveModel::Serializer
 
   has_many :calendars
   has_many :contacts
-  has_many :groups
 end

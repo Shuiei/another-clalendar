@@ -6,14 +6,25 @@ module Api
       before_action :authenticate_user!
 
       def index
-        @calendar = current_user.calendar.find(event_params[:calendar_id])
+        @calendar = Calendar.for_invited_user(current_user).find(params[:calendar_id])
         @event = @calendar.events
 
         render json: @event
       end
 
-      def show
+      def create
         @calendar = current_user.calendar.find(params[:calendar_id])
+        @event = @calendar.events.build(event_params)
+
+        if @event.save
+          return render json: @event
+        else
+          return render json: @event.errors
+        end
+      end
+
+      def show
+        @calendar = Calendar.for_invited_user(current_user).find(params[:calendar_id])
         @event = @calendar.events.find(params[:id])
 
         if @event
@@ -34,17 +45,6 @@ module Api
         end
       end
 
-      def create
-        @calendar = current_user.calendar.find(params[:calendar_id])
-        @event = @calendar.events.build(params[:id])
-
-        if @event.save
-          return render json: @event
-        else
-          return render json: @event.errors
-        end
-      end
-
       def destroy
         @calendar = current_user.calendar.find(params[:calendar_id])
         @event = @calendar.events.find(params[:id])
@@ -59,7 +59,8 @@ module Api
       private
 
       def event_params
-        params.permit(:title, :description, :start_at, :end_at)
+        params.require(:event).permit(:title, :description, :start_at, :end_at, :important,
+                                      participants_attributes: [:id, :participant_id])
       end
     end
   end

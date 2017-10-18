@@ -14,9 +14,9 @@ Rails.application.routes.draw do
           resources :events
         end
 
-        resources :groups do
-          resources :contact_groups, path: 'contact', only: [:create]
-        end
+        # resources :groups do
+        #   resources :contact_groups, path: 'contact', only: [:create]
+        # end
 
         resources :contacts, only: %i[index show create destroy]
       end
