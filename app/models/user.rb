@@ -9,7 +9,7 @@ class User < ApplicationRecord
 
   include DeviseTokenAuth::Concerns::User
 
-  has_many :calendars, dependent: :destroy
+  has_many :calendars, dependent: :destroy, foreign_key: 'owner_id'
   has_many :contacts, foreign_key: 'owner_id', dependent: :destroy
 
   private
