@@ -40,14 +40,14 @@ module Api
       private
 
       def contact_params
-        params.permit(:user_id)
+        params.require(:contact).permit(:user_id, :email)
       end
 
       def define_create_attributes
-        return if params[:email].blank?
+        return if params[:contact][:email].blank?
 
-        params[:user_id] = User.find_by(email: params[:email]).id
-        params.delete(:email)
+        params[:contact][:user_id] = User.find_by(email: params[:contact][:email]).id
+        params[:contact].delete(:email)
       end
     end
   end

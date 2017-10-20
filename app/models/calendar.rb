@@ -3,9 +3,10 @@
 class Calendar < ApplicationRecord
   belongs_to :owner, class_name: 'User'
   has_many :events, dependent: :destroy
-  has_many :participants, foreign_key: "participant_id", class_name: "CalendarParticipant", dependent: :destroy
+  has_many :calendar_participants, dependent: :destroy
+  has_many :participants, through: :calendar_participants
 
-  accepts_nested_attributes_for :participants, allow_destroy: true
+  accepts_nested_attributes_for :calendar_participants, allow_destroy: true
   accepts_nested_attributes_for :events, allow_destroy: true
 
   validates :title, presence: true

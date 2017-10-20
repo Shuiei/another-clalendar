@@ -55,7 +55,7 @@ module Api
 
       def calendar_params
         params.require(:calendar).permit(:title, :private, :primary,
-                                         participants_attributes: [:id, :participant_id],
+                                         calendar_participants_attributes: [:id, :participant_id],
                                          events_attributes: [
                                            :id, :title, :description,
                                            :start_at, :end_at
