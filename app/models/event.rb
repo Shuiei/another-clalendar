@@ -2,9 +2,10 @@
 
 class Event < ApplicationRecord
   belongs_to :calendar
-  has_many :participants, foreign_key: "participant_id", class_name: "EventParticipant", dependent: :destroy
+  has_many :event_participants, dependent: :destroy
+  has_many :participants, through: :event_participants
 
-  accepts_nested_attributes_for :participants, allow_destroy: true
+  accepts_nested_attributes_for :event_participants, allow_destroy: true
 
   validates :title, :end_at, :start_at, presence: true
 

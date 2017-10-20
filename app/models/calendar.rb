@@ -13,7 +13,7 @@ class Calendar < ApplicationRecord
 
   class << self
     def for_invited_user(user)
-      contact_ids = Contact.where(owner_id: user.id).pluck(:id)
+      contact_ids = Contact.where(user_id: user.id).pluck(:id)
       calendar_ids = CalendarParticipant.where(participant_id: contact_ids).pluck(:calendar_id)
 
       Calendar.where(id: calendar_ids)
