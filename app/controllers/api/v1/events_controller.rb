@@ -7,9 +7,9 @@ module Api
 
       def index
         @calendar = Calendar.for_invited_user(current_user).find(params[:calendar_id])
-        @event = @calendar.events
+        @events = @calendar.events
 
-        render json: @event
+        render json: @events
       end
 
       def create
@@ -60,7 +60,7 @@ module Api
 
       def event_params
         params.require(:event).permit(:title, :description, :start_at, :end_at, :important,
-                                      participants_attributes: [:id, :participant_id])
+                                      participants_attributes: [:id, :participant_id, :_destroy])
       end
     end
   end

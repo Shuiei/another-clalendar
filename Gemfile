@@ -18,6 +18,7 @@ gem 'active_model_serializers'
 gem 'devise_token_auth'
 gem 'omniauth'
 gem 'puma', '~> 3.7'
+gem 'hirb'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 # gem 'jbuilder', '~> 2.5'
 # Use Redis adapter to run Action Cable in production
@@ -50,6 +51,7 @@ end
 
 group :test do
   gem 'rspec-rails'
+  gem 'factory_bot_rails'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem

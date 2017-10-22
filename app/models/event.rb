@@ -14,7 +14,7 @@ class Event < ApplicationRecord
       contact_ids = Contact.where(user_id: user.id).pluck(:id)
       event_ids = EventParticipant.where(participant_id: contact_ids).pluck(:event_id)
 
-      Event.where(id: event_ids)
+      Event.where(id: event_ids).or(user.events).disctinct
     end
   end
 end

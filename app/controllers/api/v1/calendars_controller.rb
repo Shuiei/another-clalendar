@@ -6,13 +6,13 @@ module Api
       before_action :authenticate_user!
 
       def index
-        @calendar = current_user_calendars
+        @calendars = Calendar.for_invited_user(current_user)
 
-        render json: @calendar
+        render json: @calendars
       end
 
       def show
-        @calendar = current_user_calendars.find(params[:id])
+        @calendar = Calendar.for_invited_user(current_user).find(params[:id])
 
         if @calendar
           render json: @calendar
@@ -55,18 +55,11 @@ module Api
 
       def calendar_params
         params.require(:calendar).permit(:title, :private, :primary,
-                                         calendar_participants_attributes: [:id, :participant_id],
+                                         calendar_participants_attributes: [:id, :participant_id, :_destroy],
                                          events_attributes: [
                                            :id, :title, :description,
-                                           :start_at, :end_at
+                                           :start_at, :end_at, :_destroy
                                          ])
-      end
-
-      def current_user_calendars
-        calendar = current_user.calendars
-        calendar << Calendar.for_invited_user(current_user)
-
-        calendar.distinct
       end
     end
   end

@@ -16,7 +16,7 @@ class Calendar < ApplicationRecord
       contact_ids = Contact.where(user_id: user.id).pluck(:id)
       calendar_ids = CalendarParticipant.where(participant_id: contact_ids).pluck(:calendar_id)
 
-      Calendar.where(id: calendar_ids)
+      Calendar.where(id: calendar_ids).or(user.calendars).distinct
     end
   end
 end
