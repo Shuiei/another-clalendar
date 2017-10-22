@@ -12,6 +12,7 @@ Rails.application.routes.draw do
       resource :user do
         resources :calendars do
           resources :events
+          resource :leave_calendars, only: [:destroy], path: :leave
         end
 
         # resources :groups do

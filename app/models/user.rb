@@ -5,7 +5,7 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable, :omniauthable
 
-  after_create :create_calendar
+  after_create :create_primary_calendar
 
   include DeviseTokenAuth::Concerns::User
 
@@ -14,7 +14,7 @@ class User < ApplicationRecord
 
   private
 
-  def create_calendar
+  def create_primary_calendar
     calendars.create(title: 'MyCalendar', primary: true)
   end
 end
