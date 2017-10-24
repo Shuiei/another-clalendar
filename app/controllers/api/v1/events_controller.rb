@@ -13,7 +13,7 @@ module Api
       end
 
       def create
-        @calendar = current_user.calendar.find(params[:calendar_id])
+        @calendar = current_user.calendars.find(params[:calendar_id])
         @event = @calendar.events.build(event_params)
 
         if @event.save
@@ -35,7 +35,7 @@ module Api
       end
 
       def update
-        @calendar = current_user.calendar.find(params[:calendar_id])
+        @calendar = current_user.calendars.find(params[:calendar_id])
         @event = @calendar.events.find(params[:id])
 
         if @event.update(event_params)
@@ -46,7 +46,7 @@ module Api
       end
 
       def destroy
-        @calendar = current_user.calendar.find(params[:calendar_id])
+        @calendar = current_user.calendars.find(params[:calendar_id])
         @event = @calendar.events.find(params[:id])
 
         if @event.destroy
@@ -60,7 +60,7 @@ module Api
 
       def event_params
         params.require(:event).permit(:title, :description, :start_at, :end_at, :important,
-                                      participants_attributes: [:id, :participant_id, :_destroy])
+                                      event_participants_attributes: [:id, :participant_id, :_destroy])
       end
     end
   end
