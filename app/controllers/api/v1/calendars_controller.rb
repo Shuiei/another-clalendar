@@ -58,7 +58,8 @@ module Api
                                          calendar_participants_attributes: [:id, :participant_id, :_destroy],
                                          events_attributes: [
                                            :id, :title, :description,
-                                           :start_at, :end_at, :_destroy
+                                           :start_at, :end_at, :_destroy,
+                                           event_participants_attributes: [:id, :participant_id, :_destroy]
                                          ])
       end
     end
